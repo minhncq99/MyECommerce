@@ -145,9 +145,9 @@ namespace MyECommerce.Controllers
         #endregion
 
         #region -- Share Method --
-        private double total(long ProductId, int Amount, string Coupon)
+        private long total(long ProductId, int Amount, string Coupon)
         {
-            double total = 0;
+            long total = 0;
             var _product = _context.Products.FirstOrDefault(x => x.ProductId == ProductId);
             if (_product != null)
             {

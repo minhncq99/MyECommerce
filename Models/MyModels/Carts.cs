@@ -11,6 +11,6 @@ namespace MyECommerce.Models.MyModels
         public string ProductName { get; set; }
         public int Amount { get; set; }
         public string Coupon { get; set; }
-        public double TotalPrice { get; set; }
+        public long TotalPrice { get; set; }
     }
 }
