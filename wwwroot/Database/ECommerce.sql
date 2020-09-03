@@ -64,7 +64,7 @@ GO
 --- Coupon ---
 Create TABLE Coupons(
 	CouponId int IDENTITY(1,1) PRIMARY KEY,
-	Code nvarchar(20) NOT NULL,
+	Code nvarchar(20) NOT NULL UNIQUE,
 	Discount int NOT NULL,
 	Minimize int,
 	ShopId nvarchar(30) NOT NULL,

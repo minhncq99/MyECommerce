@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using MyECommerce.Models;
+using System;
 using System.Text;
 
 namespace MyECommerce
@@ -54,6 +55,13 @@ namespace MyECommerce
                     };
                 });
 
+            // Use Session
+            services.AddDistributedMemoryCache();
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromDays(30);
+            });
+
             services.AddMvc();
         }
 
@@ -83,6 +91,9 @@ namespace MyECommerce
             // Use Authentication
             app.UseAuthentication();
             app.UseAuthorization();
+
+            // Use Session
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {
