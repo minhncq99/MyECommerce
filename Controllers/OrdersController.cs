@@ -68,9 +68,25 @@ namespace MyECommerce.Controllers
             _context.SaveChanges();
             HttpContext.Session.SetString(_keySessionCart, "");
 
-            return Ok();
+            return Ok("Success");
         }
 
+        /// <summary>
+        /// Get All Order for current customer
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("get-order-current")]
+        public ActionResult GetOrder()
+        {
+            // Get info of current user
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            IList<Claim> claims = identity.Claims.ToList();
+            string username = claims[0].Value;
+
+            var orders = _context.Orders.Where(x => x.CustomerId == username);
+
+            return Ok(orders);
+        }
 
 
         #region -- Share Method --
