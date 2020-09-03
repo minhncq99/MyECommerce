@@ -23,12 +23,60 @@ namespace MyECommerce.Controllers
 
         // Login admin
         [HttpPost("admin")]
-        public ActionResult Login([FromBody]LoginReq req)
+        public ActionResult LoginAdmin([FromBody]LoginReq req)
         {
             ActionResult response = Unauthorized();
 
             // Check Username and Password
             var model = _context.Admins.FirstOrDefault(a => a.AdminId == req.username);
+            bool isPass = (model != null && model.Password == req.password) ? true : false;
+            if (isPass)
+            {
+                var tokenStr = GenerateJSONWebToken(req, model.RoleId);
+                response = Ok(new { token = tokenStr });
+            }
+
+            return response;
+        }
+
+        [HttpPost("shop")]
+        public ActionResult LoginShop(LoginReq req)
+        {
+            ActionResult response = Unauthorized();
+
+            var model = _context.Shops.FirstOrDefault(x => x.ShopId == req.username);
+            var isPass = (model != null && model.Password == req.password) ? true : false;
+            if(isPass)
+            {
+                var tokenStr = GenerateJSONWebToken(req, model.RoleId);
+                response = Ok(new { token = tokenStr });
+            }
+
+            return response;
+        }
+
+        [HttpPost("customer")]
+        public ActionResult LoginCustomer(LoginReq req)
+        {
+            ActionResult response = Unauthorized();
+
+            var model = _context.Customers.FirstOrDefault(x => x.CustomerId == req.username);
+            bool isPass = (model != null && model.Password == req.password) ? true : false;
+            if (isPass)
+            {
+                var tokenStr = GenerateJSONWebToken(req, model.RoleId);
+                response = Ok(new { token = tokenStr });
+            }
+
+            return response;
+        }
+
+        [HttpPost("shipper")]
+        public ActionResult LoginShipper(LoginReq req)
+        {
+            ActionResult response = Unauthorized();
+
+            var model = _context.Shippers.FirstOrDefault(x => x.ShipperId == req.username);
             bool isPass = (model != null && model.Password == req.password) ? true : false;
             if (isPass)
             {
