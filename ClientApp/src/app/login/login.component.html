@@ -1,0 +1,20 @@
+<div class="wrapper fadeInDown">
+    <div id="formContent">
+        <div class="fadeIn first mt-3">
+            <img src="../../assets/user_icon.png" id="icon" alt="User Icon" />
+        </div>
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <input formControlName="username" type="text" id="login" class="fadeIn second" name="login" placeholder="login">
+            <input formControlName="password" type="password" id="password" class="fadeIn third" name="login" placeholder="password">
+            <div class="clearfix mx-4">
+                <span class="float-left">
+                    <input type="checkbox" checked="checked" name="remember"> Remember me
+                </span>
+            </div>
+            <input type="submit" class="fadeIn fourth" value="Log In">
+        </form>
+        <div id="formFooter">
+            <a class="underlineHover" href="#">Forgot Password?</a>
+        </div>
+    </div>
+</div>
