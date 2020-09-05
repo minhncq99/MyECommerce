@@ -40,6 +40,13 @@ namespace MyECommerce.Controllers
             return Ok(result);
         }
 
+        [HttpGet("get-new")]
+        public ActionResult<List<Products>> GetNew(int size)
+        {
+            var result = _context.Products.OrderByDescending(x => x.ProductId).Take(size).ToList();
+            return Ok(result);
+        }
+
         // Create
 
         // Update
