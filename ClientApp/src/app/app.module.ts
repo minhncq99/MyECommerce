@@ -17,6 +17,7 @@ import { LoginComponent } from './login/login.component';
 import { ProductGroupsComponent } from './product-groups/product-groups.component';
 import { ProductsComponent } from './products/products.component';
 import { OrderComponent } from './order/order.component';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { OrderComponent } from './order/order.component';
     JwPaginationComponent,
     ProductsComponent,
     OrderComponent,
+    RegisterComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -45,6 +47,7 @@ import { OrderComponent } from './order/order.component';
       { path: 'productgroups', component: ProductGroupsComponent },
       { path: 'products', component: ProductsComponent },
       { path: 'order', component: OrderComponent },
+      { path: 'register', component: RegisterComponent },
     ])
   ],
   providers: [ CookieService ],

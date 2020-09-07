@@ -40,7 +40,7 @@
             </a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink" *ngIf="!userData; else logined">
                 <a class="dropdown-item" [routerLink]="['login']">Đăng Nhập</a>
-                <a class="dropdown-item" href="">Đăng Kí</a>
+                <a class="dropdown-item" [routerLink]="['register']">Đăng Kí</a>
             </div>
             <ng-template #logined>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
