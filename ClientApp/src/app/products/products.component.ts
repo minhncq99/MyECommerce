@@ -2,7 +2,6 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { getBaseUrl } from 'src/main';
 import { ActivatedRoute } from '@angular/router';
-import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-products',
@@ -11,15 +10,13 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class ProductsComponent implements OnInit {
 
-  access_token: any;
   productData: any = {
     picture : ''
   };
 
   id: any;
 
-  constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string, private routeActive: ActivatedRoute, private cookieService: CookieService){
-    this.access_token = cookieService.get('access_token');
+  constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string, private routeActive: ActivatedRoute){
     this.routeActive.queryParams.subscribe(params => {
       this.id = params['id'];
     });

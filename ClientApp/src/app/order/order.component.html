@@ -1,0 +1,133 @@
+<div class="container mt-5 mb-5">
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-8">
+            <div class="card" *ngIf="cartData; else notHaveCart">
+                <h2 class="text-center text-primary logo p-2 px-5">Thông tin đơn hàng</h2>
+                <div class="invoice p-5">
+                    <h5>Vui lòng xác nhận đơn hàng</h5>
+                    <div class="product border-bottom table-responsive">
+                        <table class="table table-borderless">
+                            <tbody>
+                                <tr *ngFor="let item of cartData">
+                                    <td width="20%"> <img src="{{ item.picture }}" width="90"> </td>
+                                    <td width="80%"> <span class="font-weight-bold">{{ item.productName }}</span>
+                                        <div class="product-qty"> <span class="d-block">Số lượng: <span class="text-primary">{{ item.amount }}</span></span> <span>Coupon: {{item.coupon}}</span> </div>
+                                    </td>
+                                    <td width="20%">
+                                        <div class="text-right"> <span class="font-weight-bold">{{ item.totalPrice| number }}đ</span> </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row d-flex justify-content-end">
+                        <div class="col-md-5">
+                            <table class="table table-borderless">
+                                <tbody class="totals">
+                                    <tr>
+                                        <td>
+                                            <div class="text-left"> <span class="text-muted">Ngày đặt hàng</span> </div>
+                                        </td>
+                                        <td>
+                                            <div class="text-right"> <span>{{ orderTime }}</span> </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="text-left"> <span class="text-muted">Tổng giá sản phẩm:</span> </div>
+                                        </td>
+                                        <td>
+                                            <div class="text-right"> <span>{{ temporarySum| number }}đ</span> </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="text-left"> <span class="text-muted">Phí vận chuyển:</span> </div>
+                                        </td>
+                                        <td>
+                                            <div class="text-right"> <span>35.000đ</span> </div>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-top border-bottom">
+                                        <td>
+                                            <div class="text-left"> <span class="font-weight-bold">Tổng</span> </div>
+                                        </td>
+                                        <td>
+                                            <div class="text-right"> <span class="font-weight-bold">{{ temporarySum + 35000| number }}đ</span> </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-end">
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalCenter">
+                            Đặt hàng
+                        </button>
+                    </div>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Đặt hàng</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <form class="modal-body form-group" (ngSubmit)="orderBtn($event)">
+                                    <label for="comment">Lời nhắn cho shipper</label>
+                                    <textarea class="form-control" rows="5" id="comment" name="comment"></textarea>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                                        <button type="submit" class="btn btn-primary">Đặt</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <ng-template #notHaveCart>
+                <div class="card">
+                    <h2 class="text-center text-primary logo p-2 px-5">Bạn cần thêm sản phẩm vào giỏ hàng</h2>
+                </div>
+            </ng-template>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-5" *ngIf="ordered">
+    <div class="card">
+        <h2 class="text-center text-primary logo p-2 px-5">Lịch sử mua hàng</h2>
+    </div>
+    <div class="d-flex justify-content-center row">
+        <div class="col-md-10">
+            <div class="rounded">
+                <div class="table-responsive table-borderless">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Mã đơn hàng</th>
+                                <th>Tình trạng</th>
+                                <th>Tổng</th>
+                                <th>Ngày order</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-body">
+                            <tr class="cell-1" *ngFor="let item of ordered">
+                                <td>{{ item.orderId }}</td>
+                                <td>{{ item.status }}</td>
+                                <td>{{ item.temporarySum| number }}đ</td>
+                                <td>{{ item.timeOrder| date: 'dd/MM/yyyy' }}</td>
+                                <td><i class="fa fa-ellipsis-h text-black-50"></i></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

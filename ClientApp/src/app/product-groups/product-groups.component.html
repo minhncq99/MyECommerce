@@ -6,19 +6,19 @@
         <div class="col-md-3 col-sm-6" *ngFor="let productItems of productsData">
             <div class="product-grid6 mb-3">
                 <div class="product-image6">
-                    <a href="">
+                    <a [routerLink]="['/products']" [queryParams]="{id: productItems.productId}">
                         <img class="pic-1" src="{{ productItems.picture }}">
                     </a>
                 </div>
                 <div class="product-content">
-                    <h3 class="title"><a href="">{{ productItems.name }}</a></h3>
+                    <h3 class="title"><a [routerLink]="['/products']" [queryParams]="{id: productItems.productId}">{{ productItems.name }}</a></h3>
                     <div class="price">{{ productItems.price - productItems.discount | number }}đ
                         <span>{{ productItems.discount | number }}đ</span>
                     </div>
                 </div>
                 <ul class="social">
                     <li>
-                        <a href="" data-tip="Thêm vào giỏ hàng"><img height="27px" src="../../assets/supermarket-green.png" alt="cart"></a>
+                        <a [routerLink]="['/products']" [queryParams]="{id: productItems.productId}" data-tip="Thêm vào giỏ hàng"><img height="27px" src="../../assets/supermarket-green.png" alt="cart"></a>
                     </li>
                 </ul>
             </div>
