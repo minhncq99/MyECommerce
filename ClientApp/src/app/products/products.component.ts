@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { getBaseUrl } from 'src/main';
+import { ActivatedRoute } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-products',
@@ -7,9 +11,49 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProductsComponent implements OnInit {
 
-  constructor() { }
+  access_token: any;
+  productData: any = {
+    picture : ''
+  };
+
+  id: any;
+
+  constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string, private routeActive: ActivatedRoute, private cookieService: CookieService){
+    this.access_token = cookieService.get('access_token');
+    this.routeActive.queryParams.subscribe(params => {
+      this.id = params['id'];
+    });
+
+    this.http.get(getBaseUrl() + 'api/products/get-by-id?id=' + this.id).subscribe(result => {
+      this.productData = result;
+      console.log(this.productData);
+    });
+  }
+
+  onSubmit(event){
+    let amout = event.target.amout.value;
+    if(amout > 0){
+      let body : any = {
+        ProductId: this.productData.productId,
+        Amount: Number(amout)
+      };
+
+      console.log(body);
+
+      this.http.post(getBaseUrl() + 'api/carts/add-item', body).subscribe(result => {
+        if(result['success']){
+          alert("Đã thêm sản phẩm vào giỏ hàng!");
+        } else {
+          alert("Thêm sản phẩm không thành công");
+        }
+      }, error => console.error(error));
+    }else{
+      alert("Số lượng sản phẩn mua không thể nhỏ hơn 0");
+    }
+  }
 
   ngOnInit() {
+    
   }
 
 }

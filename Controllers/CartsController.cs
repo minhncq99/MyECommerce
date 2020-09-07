@@ -87,7 +87,7 @@ namespace MyECommerce.Controllers
             }
 
             HttpContext.Session.SetString(_keySessionCart, JsonConvert.SerializeObject(carts));
-            return Ok("Success");
+            return Ok(new { success = true});
         }
 
         [HttpPut("update-item")]

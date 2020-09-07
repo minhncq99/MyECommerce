@@ -15,6 +15,7 @@ import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { LoginComponent } from './login/login.component';
 import { ProductGroupsComponent } from './product-groups/product-groups.component';
+import { ProductsComponent } from './products/products.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { ProductGroupsComponent } from './product-groups/product-groups.componen
     LoginComponent,
     ProductGroupsComponent,
     JwPaginationComponent,
+    ProductsComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -39,6 +41,7 @@ import { ProductGroupsComponent } from './product-groups/product-groups.componen
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'login', component: LoginComponent },
       { path: 'productgroups', component: ProductGroupsComponent },
+      { path: 'products', component: ProductsComponent },
     ])
   ],
   providers: [ CookieService ],
