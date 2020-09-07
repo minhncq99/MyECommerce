@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
 import { getBaseUrl } from 'src/main';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-nav-menu',
@@ -14,7 +15,7 @@ export class NavMenuComponent implements OnInit {
   productGroupsData: any;
   userData: any;
 
-  constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string, private cookieService: CookieService) {
+  constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string, private cookieService: CookieService, private router: Router){
     http.get(baseUrl + 'api/business/get-all').subscribe(result => {
       this.businessData = result;
     }, error => console.error(error));

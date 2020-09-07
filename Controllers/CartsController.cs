@@ -47,10 +47,12 @@ namespace MyECommerce.Controllers
             if(_session == null)
             {
                 // Add cart to carts
+                var product  = _context.Products.FirstOrDefault(x => x.ProductId == req.ProductId);
                 var cart = new Carts()
                 {
                     ProductId = req.ProductId,
-                    ProductName = _context.Products.FirstOrDefault(x => x.ProductId == req.ProductId).Name,
+                    ProductName = product.Name,
+                    Picture = product.Picture,
                     Amount = req.Amount,
                     Coupon = req.Coupon,
                     TotalPrice = total(req.ProductId, req.Amount, req.Coupon) 
@@ -67,11 +69,13 @@ namespace MyECommerce.Controllers
                 // Product not in old carts
                 if(carts.FirstOrDefault(x => x.ProductId == req.ProductId) == null)
                 {
+                    var product = _context.Products.FirstOrDefault(x => x.ProductId == req.ProductId);
                     // Create new cart
                     Carts cart = new Carts()
                     {
                         ProductId = req.ProductId,
-                        ProductName = _context.Products.FirstOrDefault(x => x.ProductId == req.ProductId).Name,
+                        ProductName = product.Name,
+                        Picture = product.Picture,
                         Amount = req.Amount,
                         Coupon = req.Coupon,
                         TotalPrice = total(req.ProductId, req.Amount, req.Coupon)
@@ -87,7 +91,7 @@ namespace MyECommerce.Controllers
             }
 
             HttpContext.Session.SetString(_keySessionCart, JsonConvert.SerializeObject(carts));
-            return Ok("Success");
+            return Ok(new { success = true});
         }
 
         [HttpPut("update-item")]
