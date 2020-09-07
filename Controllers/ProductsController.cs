@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using MyECommerce.Models;
 
 namespace MyECommerce.Controllers
@@ -26,6 +27,23 @@ namespace MyECommerce.Controllers
         public ActionResult<Products> GetById(int id)
         {
             var result = _context.Products.FirstOrDefault(x => x.ProductId == id);
+            return Ok(result);
+        }
+
+        // Get products new by product groups with pagination
+        [HttpGet("get-by-product-group")]
+        public ActionResult<List<Products>> GetByProductGroup(int id, int page, int size)
+        {
+            var result = _context.Products.Where(x => x.ProductGroupId == id)
+                .OrderByDescending(x => x.ProductId).Skip((page -1) * size).Take(size).ToList();
+
+            return Ok(result);
+        }
+
+        [HttpGet("get-new")]
+        public ActionResult<List<Products>> GetNew(int size)
+        {
+            var result = _context.Products.OrderByDescending(x => x.ProductId).Take(size).ToList();
             return Ok(result);
         }
 

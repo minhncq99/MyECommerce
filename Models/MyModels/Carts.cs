@@ -12,5 +12,6 @@ namespace MyECommerce.Models.MyModels
         public int Amount { get; set; }
         public string Coupon { get; set; }
         public long TotalPrice { get; set; }
+        public string Picture { get; set; }
     }
 }
