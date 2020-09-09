@@ -5,7 +5,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CookieService } from 'ngx-cookie-service';
-import { JwPaginationComponent } from 'jw-angular-pagination';
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
@@ -29,7 +28,6 @@ import { RegisterComponent } from './register/register.component';
     FooterComponent,
     LoginComponent,
     ProductGroupsComponent,
-    JwPaginationComponent,
     ProductsComponent,
     OrderComponent,
     RegisterComponent,
