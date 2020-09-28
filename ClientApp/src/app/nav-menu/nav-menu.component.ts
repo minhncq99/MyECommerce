@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
 import { getBaseUrl } from 'src/main';
 import { Router } from '@angular/router';
+import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-nav-menu',
@@ -15,7 +16,13 @@ export class NavMenuComponent implements OnInit {
   productGroupsData: any;
   userData: any;
 
-  constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string, private cookieService: CookieService, private router: Router){
+  searchForm: FormGroup;
+
+  constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string, private cookieService: CookieService, private router: Router, private formBuilder: FormBuilder ){
+    this.searchForm = this.formBuilder.group({
+      searchKeyWord: new FormControl('', [Validators.required])
+    });
+    
     http.get(baseUrl + 'api/business/get-all').subscribe(result => {
       this.businessData = result;
     }, error => console.error(error));
@@ -40,6 +47,10 @@ export class NavMenuComponent implements OnInit {
   Logout(){
     this.cookieService.set('access_token', '');
     window.location.href = '';
+  }
+
+  ngOnSearch() {
+    this.router.navigate(['search'], {queryParams: { keys : this.searchForm.controls.searchKeyWord.value }});
   }
 }
 
