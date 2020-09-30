@@ -57,5 +57,4 @@ export class ProductGroupsComponent implements OnInit {
         this.productsData = result;
       }, error => console.error(error));
   }
-
 }

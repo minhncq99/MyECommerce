@@ -17,6 +17,7 @@ import { ProductGroupsComponent } from './product-groups/product-groups.componen
 import { ProductsComponent } from './products/products.component';
 import { OrderComponent } from './order/order.component';
 import { RegisterComponent } from './register/register.component';
+import { SearchComponent } from './search/search.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { RegisterComponent } from './register/register.component';
     ProductsComponent,
     OrderComponent,
     RegisterComponent,
+    SearchComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -46,6 +48,7 @@ import { RegisterComponent } from './register/register.component';
       { path: 'products', component: ProductsComponent },
       { path: 'order', component: OrderComponent },
       { path: 'register', component: RegisterComponent },
+      { path: 'search', component: SearchComponent },
     ])
   ],
   providers: [ CookieService ],

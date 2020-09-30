@@ -14,7 +14,6 @@ export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
   
   constructor(private http: HttpClient, private cookieService: CookieService, private formbuilder: FormBuilder){
-    
   }
 
   ngOnInit() {
@@ -53,5 +52,4 @@ export class RegisterComponent implements OnInit {
       })
     }
   }
-
 }

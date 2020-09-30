@@ -40,6 +40,7 @@ namespace MyECommerce.Controllers
             return Ok(result);
         }
 
+        // Get new products
         [HttpGet("get-new")]
         public ActionResult<List<Products>> GetNew(int size)
         {
@@ -47,6 +48,15 @@ namespace MyECommerce.Controllers
             return Ok(result);
         }
 
+        // Search product by name have pagination
+        [HttpGet("search")]
+        public ActionResult<List<Products>> Search(string name, int page, int size)
+        {
+            var result = _context.Products.Where(x => x.Name.Contains(name)).Skip((page - 1) * size).Take(size);
+
+            return Ok(result);
+        }
+       
         // Create
 
         // Update
