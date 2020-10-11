@@ -5,7 +5,6 @@ namespace MyECommerce.Models
 {
     public partial class Evaluates
     {
-        public long EvaluateId { get; set; }
         public byte NumberStar { get; set; }
         public long ProductId { get; set; }
         public string CustomerId { get; set; }

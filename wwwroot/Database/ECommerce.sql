@@ -144,10 +144,11 @@ GO
 
 --- Evaluate ---
 CREATE TABLE Evaluates(
-	EvaluateId bigint IDENTITY(1,1) PRIMARY KEY,
+	--EvaluateId bigint IDENTITY(1,1) PRIMARY KEY,
 	NumberStar tinyint NOT NULL,
 	ProductId bigint NOT NULL,
 	CustomerId nvarchar(30) NOT NULL,
+	PRIMARY KEY (ProductID, CustomerId),
 	FOREIGN KEY(ProductId) REFERENCES Products(ProductId), 
 	FOREIGN KEY(CustomerId) REFERENCES Customers(CustomerId)
 )
@@ -209,59 +210,62 @@ CREATE TABLE OrderDetails(
 GO
 
 --- Warehose(Chuyển hàng vào kho) ---
-CREATE TABLE Warehose(
-	WarehoseId bigint IDENTITY(1,1) PRIMARY KEY,
-	Time datetime NOT NULL,
-	OrderDetailId bigint NOT NULL,
-	ShipperId nvarchar(30) NOT NULL,
-	FOREIGN KEY(OrderDetailId) REFERENCES OrderDetails(OrderDetailId),
-	FOREIGN KEY(ShipperId) REFERENCES Shippers(ShipperId)
-)
-GO
+--CREATE TABLE Warehose(
+--	WarehoseId bigint IDENTITY(1,1) PRIMARY KEY,
+--	Time datetime NOT NULL,
+--	OrderDetailId bigint NOT NULL,
+--	ShipperId nvarchar(30) NOT NULL,
+--	FOREIGN KEY(OrderDetailId) REFERENCES OrderDetails(OrderDetailId),
+--	FOREIGN KEY(ShipperId) REFERENCES Shippers(ShipperId)
+--)
+--GO
 
---- Deliveries(Giao hàng) ---
-Create TABLE Deliveries(
-	DeliveryId bigint IDENTITY(1,1) PRIMARY KEY,
-	Time datetime NOT NULL,
-	OrderId bigint NOT NULL,
-	ShipperId nvarchar(30) NOT NULL,
-	FOREIGN KEY(OrderId) REFERENCES Orders(OrderId),
-	FOREIGN KEY(ShipperId) REFERENCES Shippers(ShipperId)
-)
-GO
+----- Deliveries(Giao hàng) ---
+--Create TABLE Deliveries(
+--	DeliveryId bigint IDENTITY(1,1) PRIMARY KEY,
+--	Time datetime NOT NULL,
+--	OrderId bigint NOT NULL,
+--	ShipperId nvarchar(30) NOT NULL,
+--	FOREIGN KEY(OrderId) REFERENCES Orders(OrderId),
+--	FOREIGN KEY(ShipperId) REFERENCES Shippers(ShipperId)
+--)
+--GO
 
 --- Chat(Trò chuyện) ---
 Create TABLE Chats(
 	ChatId bigint IDENTITY(1,1) PRIMARY KEY,
 	CustomerId nvarchar(30),
 	ShopId nvarchar(30),
+	Time Datetime  NOT NULL,
+	Content text NOT NULL,
+	isFromShop bit NOT NULL,
 	FOREIGN KEY(CustomerId) REFERENCES Customers(CustomerId),
 	FOREIGN KEY(ShopId) REFERENCES Shops(ShopId)
 )
 GO
 
 --- ChatDetails ---
-Create TABLE ChatDetails(
-	ChatDetailId bigint IDENTITY(1,1) PRIMARY KEY,
-	Content text NOT NULL,
-	Time Datetime  NOT NULL,
-	ChatId bigint  NOT NULL,
-	CustomerId nvarchar(30),
-	ShopId nvarchar(30),
-	FOREIGN KEY(CustomerId) REFERENCES Customers(CustomerId),
-	FOREIGN KEY(ShopId) REFERENCES Shops(ShopId),
-	FOREIGN KEY(ChatId) REFERENCES Chats(ChatId)
-)
-GO
+--Create TABLE ChatDetails(
+--	ChatDetailId bigint IDENTITY(1,1) PRIMARY KEY,
+--	Content text NOT NULL,
+--	Time Datetime  NOT NULL,
+--	ChatId bigint  NOT NULL,
+--	CustomerId nvarchar(30),
+--	ShopId nvarchar(30),
+--	FOREIGN KEY(CustomerId) REFERENCES Customers(CustomerId),
+--	FOREIGN KEY(ShopId) REFERENCES Shops(ShopId),
+--	FOREIGN KEY(ChatId) REFERENCES Chats(ChatId)
+--)
+--GO
 
---- Notifications ---
-Create Table Notifications(
-	NotificationId bigint IDENTITY(1,1) PRIMARY KEY,
-	Content text  NOT NULL,
-	Date datetime  NOT NULL,
-	AdminId nvarchar(30) NOT NULL,
-	TypeUserId tinyint NOT NULL,
-	FOREIGN KEY (AdminId) REFERENCES Admins(AdminId),
-	FOREIGN KEY (TypeUserId) REFERENCES Roles(Id)
-)
-GO
+----- Notifications ---
+--Create Table Notifications(
+--	NotificationId bigint IDENTITY(1,1) PRIMARY KEY,
+--	Content text  NOT NULL,
+--	Date datetime  NOT NULL,
+--	AdminId nvarchar(30) NOT NULL,
+--	TypeUserId tinyint NOT NULL,
+--	FOREIGN KEY (AdminId) REFERENCES Admins(AdminId),
+--	FOREIGN KEY (TypeUserId) REFERENCES Roles(Id)
+--)
+--GO

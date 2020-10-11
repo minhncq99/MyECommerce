@@ -7,7 +7,6 @@ namespace MyECommerce.Models
     {
         public Customers()
         {
-            ChatDetails = new HashSet<ChatDetails>();
             Chats = new HashSet<Chats>();
             Comments = new HashSet<Comments>();
             Evaluates = new HashSet<Evaluates>();
@@ -26,7 +25,6 @@ namespace MyECommerce.Models
         public byte RoleId { get; set; }
 
         public virtual Roles Role { get; set; }
-        public virtual ICollection<ChatDetails> ChatDetails { get; set; }
         public virtual ICollection<Chats> Chats { get; set; }
         public virtual ICollection<Comments> Comments { get; set; }
         public virtual ICollection<Evaluates> Evaluates { get; set; }

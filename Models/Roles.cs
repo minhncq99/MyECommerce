@@ -9,7 +9,6 @@ namespace MyECommerce.Models
         {
             Admins = new HashSet<Admins>();
             Customers = new HashSet<Customers>();
-            Notifications = new HashSet<Notifications>();
             Shippers = new HashSet<Shippers>();
             Shops = new HashSet<Shops>();
         }
@@ -19,7 +18,6 @@ namespace MyECommerce.Models
 
         public virtual ICollection<Admins> Admins { get; set; }
         public virtual ICollection<Customers> Customers { get; set; }
-        public virtual ICollection<Notifications> Notifications { get; set; }
         public virtual ICollection<Shippers> Shippers { get; set; }
         public virtual ICollection<Shops> Shops { get; set; }
     }

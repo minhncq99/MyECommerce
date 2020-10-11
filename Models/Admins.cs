@@ -8,7 +8,6 @@ namespace MyECommerce.Models
         public Admins()
         {
             InverseFromAdminNavigation = new HashSet<Admins>();
-            Notifications = new HashSet<Notifications>();
         }
 
         public string AdminId { get; set; }
@@ -24,6 +23,5 @@ namespace MyECommerce.Models
         public virtual Admins FromAdminNavigation { get; set; }
         public virtual Roles Role { get; set; }
         public virtual ICollection<Admins> InverseFromAdminNavigation { get; set; }
-        public virtual ICollection<Notifications> Notifications { get; set; }
     }
 }

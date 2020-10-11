@@ -7,7 +7,6 @@ namespace MyECommerce.Models
     {
         public Orders()
         {
-            Deliveries = new HashSet<Deliveries>();
             OrderDetails = new HashSet<OrderDetails>();
         }
 
@@ -22,7 +21,6 @@ namespace MyECommerce.Models
         public string CustomerId { get; set; }
 
         public virtual Customers Customer { get; set; }
-        public virtual ICollection<Deliveries> Deliveries { get; set; }
         public virtual ICollection<OrderDetails> OrderDetails { get; set; }
     }
 }

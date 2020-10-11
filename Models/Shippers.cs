@@ -5,12 +5,6 @@ namespace MyECommerce.Models
 {
     public partial class Shippers
     {
-        public Shippers()
-        {
-            Deliveries = new HashSet<Deliveries>();
-            Warehose = new HashSet<Warehose>();
-        }
-
         public string ShipperId { get; set; }
         public string Password { get; set; }
         public string Name { get; set; }
@@ -25,7 +19,5 @@ namespace MyECommerce.Models
         public byte RoleId { get; set; }
 
         public virtual Roles Role { get; set; }
-        public virtual ICollection<Deliveries> Deliveries { get; set; }
-        public virtual ICollection<Warehose> Warehose { get; set; }
     }
 }
