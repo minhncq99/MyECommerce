@@ -17,7 +17,7 @@ export class OrderComponent implements OnInit {
   orderTime: any;
   temporarySum: any = 0;
 
-  constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string, cookieService: CookieService, private router: Router){
+  constructor(private http: HttpClient,@Inject('BASE_URL')private baseUrl: string, cookieService: CookieService, private router: Router){
 
     this.access_token = cookieService.get("access_token");
     if(this.access_token){
@@ -44,6 +44,65 @@ export class OrderComponent implements OnInit {
           this.temporarySum += item.totalPrice;
         });
       }
+    }, error => console.error(error));
+  }
+
+  minBtn(item) {
+    if(item.amount < 2) {
+      alert('Số lượng sản phẩm không thể nhỏ hơn 0');
+    } else {
+      let body = {
+        ProductId: item.productId,
+        Amount: item.amount -1
+      }
+      this.http.put(this.baseUrl + 'api/carts/update-item', body).subscribe(() => {
+
+        this.http.get(this.baseUrl + 'api/carts/get-cart').subscribe(result => {
+          this.cartData = result;
+          if(this.cartData){
+            this.temporarySum = 0;
+            var arr: cart[] = this.cartData;
+            arr.forEach(item=> {
+              this.temporarySum += item.totalPrice;
+            });
+          }
+        }, error => console.error(error));
+      }, error => console.log(error));
+    }
+  }
+
+  addBtn(item) {
+    let body = {
+      ProductId: item.productId,
+      Amount: item.amount + 1
+    }
+    this.http.put(this.baseUrl + 'api/carts/update-item', body).subscribe(() => {
+      this.http.get(this.baseUrl + 'api/carts/get-cart').subscribe(result => {
+        this.cartData = result;
+        if(this.cartData){
+          this.temporarySum = 0;
+          var arr: cart[] = this.cartData;
+          arr.forEach(item=> {
+            this.temporarySum += item.totalPrice;
+          });
+        }
+      }, error => console.error(error));
+    }, error => console.error(error));
+  }
+
+  deleteBtn(item) {
+    this.http.delete(this.baseUrl + 'api/carts/delete-item?id=' + item.productId).subscribe(result => {
+      console.log(result);
+      this.http.get(this.baseUrl + 'api/carts/get-cart').subscribe(result => {
+        this.cartData = result;
+        if(this.cartData){
+          this.temporarySum = 0;
+          var arr: cart[] = this.cartData;
+          arr.forEach(item=> {
+            this.temporarySum += item.totalPrice;
+          });
+        }
+      }, error => console.error(error));
     }, error => console.error(error));
   }
 

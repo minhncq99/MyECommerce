@@ -11,9 +11,18 @@
                                 <tr *ngFor="let item of cartData">
                                     <td width="20%"> <img src="{{ item.picture }}" width="90"> </td>
                                     <td width="80%"> <span class="font-weight-bold">{{ item.productName }}</span>
-                                        <div class="product-qty"> <span class="d-block">Số lượng: <span class="text-primary">{{ item.amount }}</span></span> <span>Coupon: {{item.coupon}}</span> </div>
+                                        <div class="product-qty">
+                                            <span class="d-block">
+                                                Số lượng:
+                                                <button type="button" (click)="minBtn(item)" class="btn text-danger">-</button>
+                                                <span class="text-success">{{ item.amount }}</span>
+                                                <button type="button" (click)="addBtn(item)" class="btn text-primary">+</button>
+                                            </span> 
+                                            <span>Coupon: {{item.coupon}}</span>
+                                        </div>
                                     </td>
                                     <td width="20%">
+                                        <button class="btn text-danger text-right pb-4" (click)="deleteBtn(item)">xóa</button>
                                         <div class="text-right"> <span class="font-weight-bold">{{ item.totalPrice| number }}đ</span> </div>
                                     </td>
                                 </tr>
