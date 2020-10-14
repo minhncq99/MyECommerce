@@ -66,7 +66,7 @@ namespace MyECommerce.Controllers
                 _context.OrderDetails.Add(od);
             }
             _context.SaveChanges();
-            HttpContext.Session.SetString(_keySessionCart, "");
+            HttpContext.Session.SetString(_keySessionCart, null);
 
             return Ok("Success");
         }

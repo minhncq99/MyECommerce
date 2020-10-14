@@ -86,20 +86,6 @@ namespace MyECommerce.Controllers
 
             return response;
         }
-
-        [HttpGet("test")]
-        [Authorize(Roles = "2")]
-        public ActionResult Test()
-        {
-            var identity = HttpContext.User.Identity as ClaimsIdentity;
-            IList<Claim> claim = identity.Claims.ToList();
-            var user = new
-            {
-                username = claim[0].Value,
-                roles = claim[2].Value
-            };
-            return Ok(user);
-        }
         #endregion
 
         #region -- Sharing Method --

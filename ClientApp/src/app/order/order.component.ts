@@ -107,10 +107,16 @@ export class OrderComponent implements OnInit {
   }
 
   orderBtn(event){
+    console.log(this.access_token);
+    var body = {
+      comment : event.target.comment.value
+    }
     if(this.access_token != ''){
-      this.http.post(getBaseUrl() + 'api/orders/add-order', {comment : event.target.comment.value}, {
-        headers: new HttpHeaders({'Authorization': 'Bearer ' +  this.access_token})
-      }).subscribe(result=>{
+      this.http.post(getBaseUrl() + 'api/orders/add-order', body, {
+        headers: new HttpHeaders({'Authorization': 'Bearer ' +  this.access_token}),
+        responseType: 'text'
+      })
+      .subscribe(() => {
         alert("Bạn đã đặt hàng thành công");
         this.router.navigate(['/']);
       }, error => console.log(error));
