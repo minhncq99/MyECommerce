@@ -2,3 +2,12 @@ h2 {
     color: #005a87;
     text-decoration-line: underline;
 }
+
+.comment-txt {
+  font-size: larger;
+}
+
+textarea {
+  padding: 15px;
+  width: 100%;
+}

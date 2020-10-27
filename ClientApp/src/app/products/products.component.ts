@@ -1,7 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { getBaseUrl } from 'src/main';
 import { ActivatedRoute } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-products',
@@ -11,46 +12,77 @@ import { ActivatedRoute } from '@angular/router';
 export class ProductsComponent implements OnInit {
 
   productData: any = {
-    picture : ''
+    picture: ''
   };
 
-  id: any;
+  commentList: any;
 
-  constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string, private routeActive: ActivatedRoute){
+  id: number;
+
+  constructor(
+    private http: HttpClient,
+    @Inject('BASE_URL') baseUrl: string,
+    private routeActive: ActivatedRoute,
+    private cookieSvc: CookieService) {}
+
+  ngOnInit() {
     this.routeActive.queryParams.subscribe(params => {
       this.id = params['id'];
     });
 
-    this.http.get(getBaseUrl() + 'api/products/get-by-id?id=' + this.id).subscribe(result => {
+    this.http.get(getBaseUrl() + 'api/products/get-by-id?id=' + this.id)
+    .subscribe(result => {
       this.productData = result;
-      console.log(this.productData);
+    });
+
+    this.http.get(getBaseUrl() + 'api/comments/get-by-product-id?productId=' + this.id)
+    .subscribe(result => {
+      this.commentList = result;
     });
   }
 
-  onSubmit(event){
-    let amout = event.target.amout.value;
-    if(amout > 0){
-      let body : any = {
+  onSubmit(event) {
+    const amout = event.target.amout.value;
+    if (amout > 0) {
+      const body = {
         ProductId: this.productData.productId,
         Amount: Number(amout)
       };
 
-      console.log(body);
 
-      this.http.post(getBaseUrl() + 'api/carts/add-item', body).subscribe(result => {
-        if(result['success']){
-          alert("Đã thêm sản phẩm vào giỏ hàng!");
+      this.http.post(getBaseUrl() + 'api/carts/add-item', body)
+      .subscribe(result => {
+        if (result['success']) {
+          alert('Đã thêm sản phẩm vào giỏ hàng!');
         } else {
-          alert("Thêm sản phẩm không thành công");
+          alert('Thêm sản phẩm không thành công');
         }
       }, error => console.error(error));
-    }else{
-      alert("Số lượng sản phẩn mua không thể nhỏ hơn 0");
+    } else {
+      alert('Số lượng sản phẩn mua không thể nhỏ hơn 0');
     }
   }
 
-  ngOnInit() {
-    
-  }
+  addComment(content: string) {
+    const access_token = this.cookieSvc.get('access_token');
+    if (access_token !== '') {
+      const body = {
+        Content: content,
+        ProductId: Number(this.id)
+      };
+      const header = new HttpHeaders({'Authorization': 'Bearer ' +  access_token});
 
+      this.http.post(getBaseUrl() + 'api/comments/create', body,
+      { headers: new HttpHeaders({'Authorization': 'Bearer ' +  access_token})})
+      .subscribe(result => {
+        alert('Thêm bình luận thành công');
+        this.http.get(getBaseUrl() + `api/comments/get-by-product-id?productId=${ this.id }`)
+        .subscribe(res => {
+          this.commentList = res;
+        });
+      });
+    } else {
+      alert('Bạn cần đăng nhập để có thể bình luận về sản phẩm');
+    }
+  }
 }

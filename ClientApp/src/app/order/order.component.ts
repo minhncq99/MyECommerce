@@ -17,7 +17,7 @@ export class OrderComponent implements OnInit {
   orderTime: any;
   temporarySum: any = 0;
 
-  constructor(private http: HttpClient,@Inject('BASE_URL')private baseUrl: string, cookieService: CookieService, private router: Router){
+  constructor(private http: HttpClient, @Inject('BASE_URL')private baseUrl: string, cookieService: CookieService, private router: Router){
 
     this.access_token = cookieService.get("access_token");
     if(this.access_token){
@@ -128,7 +128,7 @@ export class OrderComponent implements OnInit {
 
   ngOnInit() {
   }
-  
+
 }
 interface cart{
   productId: number,
