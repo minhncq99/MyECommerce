@@ -44,7 +44,7 @@ namespace MyECommerce.Controllers
             List<Carts> carts = new List<Carts>();
             var _session = HttpContext.Session.GetString(_keySessionCart);
 
-            if(_session == null)
+            if(_session == null || _session == "")
             {
                 // Add cart to carts
                 var product  = _context.Products.FirstOrDefault(x => x.ProductId == req.ProductId);

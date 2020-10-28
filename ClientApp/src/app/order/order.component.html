@@ -17,7 +17,7 @@
                                                 <button type="button" (click)="minBtn(item)" class="btn text-danger">-</button>
                                                 <span class="text-success">{{ item.amount }}</span>
                                                 <button type="button" (click)="addBtn(item)" class="btn text-primary">+</button>
-                                            </span> 
+                                            </span>
                                             <span>Coupon: {{item.coupon}}</span>
                                         </div>
                                     </td>
@@ -85,12 +85,12 @@
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
-                                <form class="modal-body form-group" (ngSubmit)="orderBtn($event)">
+                                <form class="modal-body form-group">
                                     <label for="comment">Lời nhắn cho shipper</label>
-                                    <textarea class="form-control" rows="5" id="comment" name="comment"></textarea>
+                                    <textarea class="form-control" rows="5" #comment name="comment"></textarea>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                                        <button type="submit" class="btn btn-primary">Đặt</button>
+                                        <button type="submit" class="btn btn-primary" data-dismiss="modal" (click)="orderBtn(comment.value)">Đặt</button>
                                     </div>
                                 </form>
                             </div>
@@ -115,23 +115,26 @@
         <div class="col-md-10">
             <div class="rounded">
                 <div class="table-responsive table-borderless">
-                    <table class="table">
+                    <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th>Mã đơn hàng</th>
-                                <th>Tình trạng</th>
-                                <th>Tổng</th>
-                                <th>Ngày order</th>
-                                <th></th>
-                            </tr>
+                                <th scope="col">Mã đơn hàng</th>
+                                <th scope="col">Tình trạng</th>
+                                <th scope="col">Tổng</th>
+                                <th scope="col">Ngày order</th>
+                                <th scope="col">Xem thông tin
                         </thead>
                         <tbody class="table-body">
                             <tr class="cell-1" *ngFor="let item of ordered">
-                                <td>{{ item.orderId }}</td>
+                                <th scope="row">{{ item.orderId }}</th>
                                 <td>{{ item.status }}</td>
-                                <td>{{ item.temporarySum| number }}đ</td>
+                                <td>{{ item.totalPrice| number }}đ</td>
                                 <td>{{ item.timeOrder| date: 'dd/MM/yyyy' }}</td>
-                                <td><i class="fa fa-ellipsis-h text-black-50"></i></td>
+                                <td>
+                                  <button (click)="ShowDetail(item.orderId)" type="button" class="btn btn-primary" data-toggle="modal" data-target="#OrderDetailModel">
+                                    Xem Chi Tiết
+                                  </button>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -139,4 +142,61 @@
             </div>
         </div>
     </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="OrderDetailModel" tabindex="-1" role="dialog" aria-labelledby="OrderDetailModel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Thông tin chi tiết đơn hàng</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <table class="table table-striped">
+          <thead>
+              <tr>
+                  <th scope="col">Tên sản phầm
+                  </th>
+                  <th scope="col">Số lượng</th>
+                  <th scope="col">Thành tiền</th>
+          </thead>
+          <tbody class="table-body">
+              <tr class="cell-1" *ngFor="let item of ListOrderDetail">
+                  <td>
+                    <a [routerLink]="['/products']" [queryParams]="{ id: item.productId}" data-dismiss="modal">{{ item.productName }}</a>
+                  </td>
+                  <td>{{ item.amount| number }}</td>
+                  <td>{{ item.price| number }}đ</td>
+              </tr>
+          </tbody>
+        </table>
+
+        <table class="table table-borderless">
+          <tbody class="totals" *ngIf="OrderData">
+              <tr>
+                  <td><div class="text-left"> <span class="text-muted">Ngày đặt hàng</span> </div></td>
+                  <td><div class="text-right"> <span>{{ OrderData.timeOrder | date: 'dd/MM/yyyy' }}</span> </div></td>
+              </tr>
+              <tr><td><div class="text-left"> <span class="text-muted">Tổng giá sản phẩm:</span> </div></td>
+                  <td><div class="text-right"> <span>{{ OrderData.temporarySum | number }}đ</span></div></td>
+              </tr>
+              <tr>
+                <td><div class="text-left"> <span class="text-muted">Phí vận chuyển:</span> </div></td>
+                <td><div class="text-right"> <span>35.000đ</span></div></td>
+              </tr>
+              <tr class="border-top border-bottom">
+                <td><div class="text-left"> <span class="font-weight-bold">Tổng</span> </div> </td>
+                <td><div class="text-right"> <span class="font-weight-bold">{{ OrderData.temporarySum + 35000| number }}đ</span></div></td>
+              </tr>
+          </tbody>
+      </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+      </div>
+    </div>
+  </div>
 </div>

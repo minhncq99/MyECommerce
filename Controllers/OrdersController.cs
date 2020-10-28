@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -66,15 +67,11 @@ namespace MyECommerce.Controllers
                 _context.OrderDetails.Add(od);
             }
             _context.SaveChanges();
-            HttpContext.Session.SetString(_keySessionCart, null);
+            HttpContext.Session.SetString(_keySessionCart, "");
 
             return Ok("Success");
         }
 
-        /// <summary>
-        /// Get All Order for current customer
-        /// </summary>
-        /// <returns></returns>
         [HttpGet("get-order-current")]
         public ActionResult GetOrder()
         {
@@ -88,6 +85,52 @@ namespace MyECommerce.Controllers
             return Ok(orders);
         }
 
+        [HttpGet("get-by-order-id")]
+        public ActionResult<object> GetByOrderId(int id)
+        {
+            if (id < 1)
+            {
+                return BadRequest();
+            }
+            else
+            {
+
+                // Take info about current user
+                var identity = HttpContext.User.Identity as ClaimsIdentity;
+                IList<Claim> claims = identity.Claims.ToList();
+                var username = claims[0].Value;
+
+                var result = _context.Orders.Where(x => x.OrderId == id && x.CustomerId == username)
+                    .Join(
+                        _context.OrderDetails,
+                        o => o.OrderId,
+                        od => od.OrderId,
+                        (o, od) => new
+                        {
+                            Amount = od.Amount,
+                            ProductId = od.ProductId
+                        })
+                    .Join(
+                        _context.Products,
+                        oder => oder.ProductId,
+                        product => product.ProductId,
+                        (oder, product) => new
+                        {
+                            ProductId = oder.ProductId,
+                            Amount = oder.Amount,
+                            Price = product.Price - product.Discount,
+                            ProductName = product.Name
+                        });
+                if(result != null)
+                {
+                    return Ok(result);
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
+        }
 
         #region -- Share Method --
         private long total(List<Carts> carts)

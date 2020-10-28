@@ -17,6 +17,8 @@ export class ProductsComponent implements OnInit {
 
   commentList: any;
 
+  evaluteList: any;
+
   id: number;
 
   constructor(
@@ -38,6 +40,14 @@ export class ProductsComponent implements OnInit {
     this.http.get(getBaseUrl() + 'api/comments/get-by-product-id?productId=' + this.id)
     .subscribe(result => {
       this.commentList = result;
+    });
+
+    this.http.get(getBaseUrl() + 'api/evaluates/get-by-product-id', {
+      params: {
+        productId: String(this.id)
+      }
+    }).subscribe(result => {
+      this.evaluteList = result;
     });
   }
 
@@ -74,7 +84,7 @@ export class ProductsComponent implements OnInit {
 
       this.http.post(getBaseUrl() + 'api/comments/create', body,
       { headers: new HttpHeaders({'Authorization': 'Bearer ' +  access_token})})
-      .subscribe(result => {
+      .subscribe(() => {
         alert('Thêm bình luận thành công');
         this.http.get(getBaseUrl() + `api/comments/get-by-product-id?productId=${ this.id }`)
         .subscribe(res => {
@@ -83,6 +93,39 @@ export class ProductsComponent implements OnInit {
       });
     } else {
       alert('Bạn cần đăng nhập để có thể bình luận về sản phẩm');
+    }
+  }
+
+  addEvalute(evaluteStar: number) {
+    if (evaluteStar < 0 || evaluteStar > 5) {
+      alert('Số sao không hợp lệ');
+    } else {
+      const access_token = this.cookieSvc.get('access_token');
+      if (access_token !== '') {
+        const body = {
+          numberStar: Number(evaluteStar),
+          ProductId: Number(this.id)
+        };
+        const header = new HttpHeaders({'Authorization': 'Bearer ' +  access_token});
+
+        this.http.post(getBaseUrl() + 'api/evaluates/create', body,
+        { headers: new HttpHeaders({'Authorization': 'Bearer ' +  access_token})})
+        .subscribe(() => {
+          alert('Thêm đánh giá thành công');
+
+          this.http.get(getBaseUrl() + 'api/evaluates/get-by-product-id', {
+            params: {
+              productId: String(this.id)
+            }
+          }).subscribe(result => {
+            this.evaluteList = result;
+          });
+        }, () => {
+          alert('Không thể đánh giá 2 lần cùng 1 sản phẩm');
+        });
+      } else {
+        alert('Bạn cần đăng nhập để có thể đánh giá về sản phẩm');
+      }
     }
   }
 }

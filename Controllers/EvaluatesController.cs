@@ -86,7 +86,7 @@ namespace MyECommerce.Controllers
                         _context.SaveChanges();
                         return Ok();
                     }
-                    catch (SqlException)
+                    catch (Exception)
                     {
                         return BadRequest();
                     }

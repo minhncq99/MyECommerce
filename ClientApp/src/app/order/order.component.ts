@@ -17,53 +17,32 @@ export class OrderComponent implements OnInit {
   orderTime: any;
   temporarySum: any = 0;
 
-  constructor(private http: HttpClient, @Inject('BASE_URL')private baseUrl: string, cookieService: CookieService, private router: Router){
+  OrderData: any;
+  ListOrderDetail: any;
 
-    this.access_token = cookieService.get("access_token");
-    if(this.access_token){
-      this.http.get(baseUrl + 'api/orders/get-order-current', {
-        headers: new HttpHeaders({'Authorization': 'Bearer ' +  this.access_token}
-        )}
-      ).subscribe(result => {
-        this.ordered = result;
-      }, error=> console.error(error));
-    }
-
-    var today = new Date();
-    var dd = String(today.getDate()).padStart(2, '0');
-    var mm = String(today.getMonth() + 1).padStart(2, '0');
-    var yyyy = today.getFullYear();
-
-    this.orderTime = dd + '/' + mm + '/' + yyyy;
-
-    this.http.get(baseUrl + 'api/carts/get-cart').subscribe(result => {
-      this.cartData = result;
-      if(this.cartData){
-        var arr: cart[] = this.cartData;
-        arr.forEach(item=> {
-          this.temporarySum += item.totalPrice;
-        });
-      }
-    }, error => console.error(error));
-  }
+  constructor(
+    private http: HttpClient,
+    @Inject('BASE_URL') private baseUrl: string,
+    private cookieService: CookieService,
+    private router: Router) {}
 
   minBtn(item) {
-    if(item.amount < 2) {
+    if (item.amount < 2) {
       alert('Số lượng sản phẩm không thể nhỏ hơn 0');
     } else {
-      let body = {
+      const body = {
         ProductId: item.productId,
-        Amount: item.amount -1
-      }
+        Amount: item.amount - 1
+      };
       this.http.put(this.baseUrl + 'api/carts/update-item', body).subscribe(() => {
 
         this.http.get(this.baseUrl + 'api/carts/get-cart').subscribe(result => {
           this.cartData = result;
           if(this.cartData){
             this.temporarySum = 0;
-            var arr: cart[] = this.cartData;
-            arr.forEach(item=> {
-              this.temporarySum += item.totalPrice;
+            const arr: Cart[] = this.cartData;
+            arr.forEach(Item => {
+              this.temporarySum += Item.totalPrice;
             });
           }
         }, error => console.error(error));
@@ -72,17 +51,18 @@ export class OrderComponent implements OnInit {
   }
 
   addBtn(item) {
-    let body = {
+    const body = {
       ProductId: item.productId,
       Amount: item.amount + 1
-    }
+    };
+
     this.http.put(this.baseUrl + 'api/carts/update-item', body).subscribe(() => {
       this.http.get(this.baseUrl + 'api/carts/get-cart').subscribe(result => {
         this.cartData = result;
         if(this.cartData){
           this.temporarySum = 0;
-          var arr: cart[] = this.cartData;
-          arr.forEach(item=> {
+          const Arr: Cart[] = this.cartData;
+          Arr.forEach(Item => {
             this.temporarySum += item.totalPrice;
           });
         }
@@ -93,48 +73,90 @@ export class OrderComponent implements OnInit {
   deleteBtn(item) {
     this.http.delete(this.baseUrl + 'api/carts/delete-item?id=' + item.productId).subscribe(result => {
       console.log(result);
-      this.http.get(this.baseUrl + 'api/carts/get-cart').subscribe(result => {
-        this.cartData = result;
-        if(this.cartData){
+      this.http.get(this.baseUrl + 'api/carts/get-cart').subscribe(Result => {
+        this.cartData = Result;
+        if (this.cartData) {
           this.temporarySum = 0;
-          var arr: cart[] = this.cartData;
-          arr.forEach(item=> {
-            this.temporarySum += item.totalPrice;
+          const arr: Cart[] = this.cartData;
+          arr.forEach( Item => {
+            this.temporarySum += Item.totalPrice;
           });
         }
       }, error => console.error(error));
     }, error => console.error(error));
   }
 
-  orderBtn(event){
+  orderBtn(comment: string) {
     console.log(this.access_token);
-    var body = {
-      comment : event.target.comment.value
-    }
-    if(this.access_token != ''){
+    const body = {
+      comment : comment
+    };
+    if (this.access_token !== '') {
       this.http.post(getBaseUrl() + 'api/orders/add-order', body, {
         headers: new HttpHeaders({'Authorization': 'Bearer ' +  this.access_token}),
         responseType: 'text'
       })
       .subscribe(() => {
-        alert("Bạn đã đặt hàng thành công");
+        alert('Bạn đã đặt hàng thành công');
         this.router.navigate(['/']);
       }, error => console.log(error));
+    } else {
+      alert('Bạn cần đăng nhập để mua hàng');
     }
-    else{
-      alert("Bạn cần đăng nhập để mua hàng");
-    }
+  }
+
+  ShowDetail(OrderId: number) {
+    this.ordered.forEach(element => {
+      if (element.orderId === OrderId) {
+        this.OrderData = element;
+      }
+    });
+
+
+    this.http.get(this.baseUrl + `api/orders/get-by-order-id?id=${ OrderId }`, {
+      headers: new HttpHeaders({'Authorization': 'Bearer ' +  this.access_token})
+    }).subscribe(result => {
+      this.ListOrderDetail = result;
+      console.log(this.OrderData);
+      console.log(this.ListOrderDetail);
+    });
   }
 
   ngOnInit() {
+    this.access_token = this.cookieService.get('access_token');
+    if (this.access_token) {
+      this.http.get(this.baseUrl + 'api/orders/get-order-current', {
+        headers: new HttpHeaders({'Authorization': 'Bearer ' +  this.access_token}
+        )}
+      ).subscribe(result => {
+        this.ordered = result;
+      }, error => console.error(error));
+    }
+
+    const today = new Date();
+    const dd = String(today.getDate()).padStart(2, '0');
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const yyyy = today.getFullYear();
+
+    this.orderTime = dd + '/' + mm + '/' + yyyy;
+
+    this.http.get(this.baseUrl + 'api/carts/get-cart').subscribe(result => {
+      this.cartData = result;
+      if (this.cartData) {
+        const arr: Cart[] = this.cartData;
+        arr.forEach(item => {
+          this.temporarySum += item.totalPrice;
+        });
+      }
+    }, error => console.error(error));
   }
 
 }
-interface cart{
-  productId: number,
-  productName: string,
-  picture: string,
-  amount: number,
-  coupon: string,
-  totalPrice: number
+interface Cart {
+  productId: number;
+  productName: string;
+  picture: string;
+  amount: number;
+  coupon: string;
+  totalPrice: number;
 }
