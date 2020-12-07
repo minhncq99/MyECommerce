@@ -35,6 +35,8 @@ namespace MyECommerce.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
+// #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+//                 optionsBuilder.UseSqlServer("Server=.;Database=MyECommerce;Persist Security Info=True;User ID=sa;Password=!Minh3614534;Pooling=False;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=True;");
             }
         }
 
@@ -43,10 +45,10 @@ namespace MyECommerce.Models
             modelBuilder.Entity<Admins>(entity =>
             {
                 entity.HasKey(e => e.AdminId)
-                    .HasName("PK__Admins__719FE488C5E3D33F");
+                    .HasName("PK__Admins__719FE488E4B4991B");
 
                 entity.HasIndex(e => e.Email)
-                    .HasName("UQ__Admins__A9D1053485B1E26B")
+                    .HasName("UQ__Admins__A9D105342D0A536B")
                     .IsUnique();
 
                 entity.Property(e => e.AdminId).HasMaxLength(30);
@@ -78,13 +80,13 @@ namespace MyECommerce.Models
                 entity.HasOne(d => d.FromAdminNavigation)
                     .WithMany(p => p.InverseFromAdminNavigation)
                     .HasForeignKey(d => d.FromAdmin)
-                    .HasConstraintName("FK__Admins__FromAdmi__276EDEB3");
+                    .HasConstraintName("FK__Admins__FromAdmi__398D8EEE");
 
                 entity.HasOne(d => d.Role)
                     .WithMany(p => p.Admins)
                     .HasForeignKey(d => d.RoleId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Admins__RoleId__286302EC");
+                    .HasConstraintName("FK__Admins__RoleId__3A81B327");
             });
 
             modelBuilder.Entity<Business>(entity =>
@@ -97,7 +99,7 @@ namespace MyECommerce.Models
             modelBuilder.Entity<Chats>(entity =>
             {
                 entity.HasKey(e => e.ChatId)
-                    .HasName("PK__Chats__A9FBE7C644518764");
+                    .HasName("PK__Chats__A9FBE7C6C72AA4A5");
 
                 entity.Property(e => e.Content)
                     .IsRequired()
@@ -114,18 +116,18 @@ namespace MyECommerce.Models
                 entity.HasOne(d => d.Customer)
                     .WithMany(p => p.Chats)
                     .HasForeignKey(d => d.CustomerId)
-                    .HasConstraintName("FK__Chats__CustomerI__59063A47");
+                    .HasConstraintName("FK__Chats__CustomerI__6B24EA82");
 
                 entity.HasOne(d => d.Shop)
                     .WithMany(p => p.Chats)
                     .HasForeignKey(d => d.ShopId)
-                    .HasConstraintName("FK__Chats__ShopId__59FA5E80");
+                    .HasConstraintName("FK__Chats__ShopId__6C190EBB");
             });
 
             modelBuilder.Entity<Comments>(entity =>
             {
                 entity.HasKey(e => e.CommentId)
-                    .HasName("PK__Comments__C3B4DFCA18FA7ED8");
+                    .HasName("PK__Comments__C3B4DFCAAF5486FC");
 
                 entity.Property(e => e.Content)
                     .IsRequired()
@@ -138,27 +140,27 @@ namespace MyECommerce.Models
                 entity.HasOne(d => d.Customer)
                     .WithMany(p => p.Comments)
                     .HasForeignKey(d => d.CustomerId)
-                    .HasConstraintName("FK__Comments__Custom__49C3F6B7");
+                    .HasConstraintName("FK__Comments__Custom__5BE2A6F2");
 
                 entity.HasOne(d => d.Product)
                     .WithMany(p => p.Comments)
                     .HasForeignKey(d => d.ProductId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Comments__Produc__47DBAE45");
+                    .HasConstraintName("FK__Comments__Produc__59FA5E80");
 
                 entity.HasOne(d => d.Shop)
                     .WithMany(p => p.Comments)
                     .HasForeignKey(d => d.ShopId)
-                    .HasConstraintName("FK__Comments__ShopId__48CFD27E");
+                    .HasConstraintName("FK__Comments__ShopId__5AEE82B9");
             });
 
             modelBuilder.Entity<Coupons>(entity =>
             {
                 entity.HasKey(e => e.CouponId)
-                    .HasName("PK__Coupons__384AF1BA2A3E80E2");
+                    .HasName("PK__Coupons__384AF1BACF0A4013");
 
                 entity.HasIndex(e => e.Code)
-                    .HasName("UQ__Coupons__A25C5AA73DB49CB7")
+                    .HasName("UQ__Coupons__A25C5AA724385A10")
                     .IsUnique();
 
                 entity.Property(e => e.Code)
@@ -173,16 +175,16 @@ namespace MyECommerce.Models
                     .WithMany(p => p.Coupons)
                     .HasForeignKey(d => d.ShopId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Coupons__ShopId__30F848ED");
+                    .HasConstraintName("FK__Coupons__ShopId__4316F928");
             });
 
             modelBuilder.Entity<Customers>(entity =>
             {
                 entity.HasKey(e => e.CustomerId)
-                    .HasName("PK__Customer__A4AE64D834055A4C");
+                    .HasName("PK__Customer__A4AE64D84EE23988");
 
                 entity.HasIndex(e => e.Email)
-                    .HasName("UQ__Customer__A9D10534BECE4D00")
+                    .HasName("UQ__Customer__A9D105341C366E46")
                     .IsUnique();
 
                 entity.Property(e => e.CustomerId).HasMaxLength(30);
@@ -215,13 +217,13 @@ namespace MyECommerce.Models
                     .WithMany(p => p.Customers)
                     .HasForeignKey(d => d.RoleId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Customers__RoleI__34C8D9D1");
+                    .HasConstraintName("FK__Customers__RoleI__46E78A0C");
             });
 
             modelBuilder.Entity<Evaluates>(entity =>
             {
                 entity.HasKey(e => new { e.ProductId, e.CustomerId })
-                    .HasName("PK__Evaluate__2E462080292EB846");
+                    .HasName("PK__Evaluate__2E462080509FDF5D");
 
                 entity.Property(e => e.CustomerId).HasMaxLength(30);
 
@@ -229,42 +231,42 @@ namespace MyECommerce.Models
                     .WithMany(p => p.Evaluates)
                     .HasForeignKey(d => d.CustomerId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Evaluates__Custo__44FF419A");
+                    .HasConstraintName("FK__Evaluates__Custo__571DF1D5");
 
                 entity.HasOne(d => d.Product)
                     .WithMany(p => p.Evaluates)
                     .HasForeignKey(d => d.ProductId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Evaluates__Produ__440B1D61");
+                    .HasConstraintName("FK__Evaluates__Produ__5629CD9C");
             });
 
             modelBuilder.Entity<OrderDetails>(entity =>
             {
                 entity.HasKey(e => e.OrderDetailId)
-                    .HasName("PK__OrderDet__D3B9D36C84426E81");
+                    .HasName("PK__OrderDet__D3B9D36CE42EF8AD");
 
                 entity.HasOne(d => d.Coupon)
                     .WithMany(p => p.OrderDetails)
                     .HasForeignKey(d => d.CouponId)
-                    .HasConstraintName("FK__OrderDeta__Coupo__5629CD9C");
+                    .HasConstraintName("FK__OrderDeta__Coupo__68487DD7");
 
                 entity.HasOne(d => d.Order)
                     .WithMany(p => p.OrderDetails)
                     .HasForeignKey(d => d.OrderId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__OrderDeta__Order__5441852A");
+                    .HasConstraintName("FK__OrderDeta__Order__66603565");
 
                 entity.HasOne(d => d.Product)
                     .WithMany(p => p.OrderDetails)
                     .HasForeignKey(d => d.ProductId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__OrderDeta__Produ__5535A963");
+                    .HasConstraintName("FK__OrderDeta__Produ__6754599E");
             });
 
             modelBuilder.Entity<Orders>(entity =>
             {
                 entity.HasKey(e => e.OrderId)
-                    .HasName("PK__Orders__C3905BCFBBFF902B");
+                    .HasName("PK__Orders__C3905BCF3573E6BB");
 
                 entity.Property(e => e.Comment).HasColumnType("text");
 
@@ -282,13 +284,13 @@ namespace MyECommerce.Models
                     .WithMany(p => p.Orders)
                     .HasForeignKey(d => d.CustomerId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Orders__Customer__5165187F");
+                    .HasConstraintName("FK__Orders__Customer__6383C8BA");
             });
 
             modelBuilder.Entity<ProductGroups>(entity =>
             {
                 entity.HasKey(e => e.ProductGroupId)
-                    .HasName("PK__ProductG__0F0D7B2226D44180");
+                    .HasName("PK__ProductG__0F0D7B22BB77669D");
 
                 entity.Property(e => e.Name)
                     .IsRequired()
@@ -298,13 +300,13 @@ namespace MyECommerce.Models
                     .WithMany(p => p.ProductGroups)
                     .HasForeignKey(d => d.BusinessId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__ProductGr__Busin__3D5E1FD2");
+                    .HasConstraintName("FK__ProductGr__Busin__4F7CD00D");
             });
 
             modelBuilder.Entity<Products>(entity =>
             {
                 entity.HasKey(e => e.ProductId)
-                    .HasName("PK__Products__B40CC6CD5FD78822");
+                    .HasName("PK__Products__B40CC6CD7089E64C");
 
                 entity.Property(e => e.Brand)
                     .IsRequired()
@@ -340,19 +342,19 @@ namespace MyECommerce.Models
                     .WithMany(p => p.Products)
                     .HasForeignKey(d => d.ProductGroupId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Products__Produc__412EB0B6");
+                    .HasConstraintName("FK__Products__Produc__534D60F1");
 
                 entity.HasOne(d => d.Shop)
                     .WithMany(p => p.Products)
                     .HasForeignKey(d => d.ShopId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Products__ShopId__403A8C7D");
+                    .HasConstraintName("FK__Products__ShopId__52593CB8");
             });
 
             modelBuilder.Entity<Replies>(entity =>
             {
                 entity.HasKey(e => e.ReplyId)
-                    .HasName("PK__Replies__C25E460998CBC502");
+                    .HasName("PK__Replies__C25E460933D370F3");
 
                 entity.Property(e => e.Content)
                     .IsRequired()
@@ -366,17 +368,17 @@ namespace MyECommerce.Models
                     .WithMany(p => p.Replies)
                     .HasForeignKey(d => d.CommentId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Replies__Comment__4CA06362");
+                    .HasConstraintName("FK__Replies__Comment__5EBF139D");
 
                 entity.HasOne(d => d.Customer)
                     .WithMany(p => p.Replies)
                     .HasForeignKey(d => d.CustomerId)
-                    .HasConstraintName("FK__Replies__Custome__4E88ABD4");
+                    .HasConstraintName("FK__Replies__Custome__60A75C0F");
 
                 entity.HasOne(d => d.Shop)
                     .WithMany(p => p.Replies)
                     .HasForeignKey(d => d.ShopId)
-                    .HasConstraintName("FK__Replies__ShopId__4D94879B");
+                    .HasConstraintName("FK__Replies__ShopId__5FB337D6");
             });
 
             modelBuilder.Entity<Roles>(entity =>
@@ -391,10 +393,10 @@ namespace MyECommerce.Models
             modelBuilder.Entity<Shippers>(entity =>
             {
                 entity.HasKey(e => e.ShipperId)
-                    .HasName("PK__Shippers__1F8AFE5903C7D687");
+                    .HasName("PK__Shippers__1F8AFE596B4A88E5");
 
                 entity.HasIndex(e => e.Email)
-                    .HasName("UQ__Shippers__A9D10534F9A38207")
+                    .HasName("UQ__Shippers__A9D1053468CB54E7")
                     .IsUnique();
 
                 entity.Property(e => e.ShipperId).HasMaxLength(30);
@@ -439,20 +441,20 @@ namespace MyECommerce.Models
                     .WithMany(p => p.Shippers)
                     .HasForeignKey(d => d.RoleId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Shippers__RoleId__38996AB5");
+                    .HasConstraintName("FK__Shippers__RoleId__4AB81AF0");
             });
 
             modelBuilder.Entity<Shops>(entity =>
             {
                 entity.HasKey(e => e.ShopId)
-                    .HasName("PK__Shops__67C557C9C20BECDD");
+                    .HasName("PK__Shops__67C557C9877F0A29");
 
                 entity.HasIndex(e => e.Email)
-                    .HasName("UQ__Shops__A9D10534796F32A8")
+                    .HasName("UQ__Shops__A9D10534616AD61F")
                     .IsUnique();
 
                 entity.HasIndex(e => e.ShopName)
-                    .HasName("UQ__Shops__649A7D9625375BB1")
+                    .HasName("UQ__Shops__649A7D9636908228")
                     .IsUnique();
 
                 entity.Property(e => e.ShopId).HasMaxLength(30);
@@ -501,7 +503,7 @@ namespace MyECommerce.Models
                     .WithMany(p => p.Shops)
                     .HasForeignKey(d => d.RoleId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Shops__RoleId__2D27B809");
+                    .HasConstraintName("FK__Shops__RoleId__3F466844");
             });
 
             OnModelCreatingPartial(modelBuilder);
