@@ -1,0 +1,10 @@
+<div id="container" *ngIf="display; else showBar">
+  <div class="icon"><i class="fas fa-arrow-circle-left" (click)="changeDisplay()"></i></div>
+  <ul>
+    <li *ngFor="let business of businessList">{{ business.name }}</li>
+  </ul>
+</div>
+
+<ng-template #showBar>
+  <div class="icon showBar"><i class="fas fa-arrow-circle-right" (click)="changeDisplay()"></i></div>
+</ng-template>

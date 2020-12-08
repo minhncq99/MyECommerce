@@ -1,0 +1,41 @@
+#container {
+  position: fixed;
+  top: 65px;
+  left: 0;
+  bottom: 0;
+  background-color: rgb(255, 255, 255);
+  width: 15%;
+  font-size: medium;
+  z-index: 1;
+}
+
+ul {
+  list-style-type: none;
+}
+
+li {
+  padding: 10px 30px;
+}
+
+li:hover, .icon:hover i {
+  background-color: rgb(24, 158, 255);
+  color: rgb(255, 255, 255);
+}
+
+.icon {
+  display: flex;
+  justify-content: right;
+}
+
+.icon i {
+  font-size: xx-large;
+  cursor: pointer;
+  border-radius: 50%;
+  margin: 10px;
+}
+
+.showBar {
+  position: fixed;
+  top: 65px;
+  left: 0;
+}
