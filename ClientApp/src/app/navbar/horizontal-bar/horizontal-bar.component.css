@@ -4,9 +4,11 @@
   left: 0;
   bottom: 0;
   background-color: rgb(255, 255, 255);
-  width: 15%;
+  width: 300px;
   font-size: medium;
   z-index: 1;
+  box-shadow: rgba(98, 98, 98, 0.5) 0px 1px 10px 5px;
+  overflow-y: scroll;
 }
 
 ul {
@@ -18,8 +20,7 @@ li {
 }
 
 li:hover, .icon:hover i {
-  background-color: rgb(24, 158, 255);
-  color: rgb(255, 255, 255);
+  color: rgb(24, 158, 255);
 }
 
 .icon {

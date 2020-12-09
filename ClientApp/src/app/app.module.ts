@@ -9,6 +9,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { AppComponent } from './app.component';
 
 import { NavbarModule } from './navbar/navbar.module';
+import { FooterModule } from './footer/footer.module';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { NavbarModule } from './navbar/navbar.module';
     FormsModule,
     ReactiveFormsModule,
     NavbarModule,
+    FooterModule,
     RouterModule.forRoot([])
   ],
   providers: [ CookieService ],

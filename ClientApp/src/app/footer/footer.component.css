@@ -1,0 +1,35 @@
+footer {
+  position: relative;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background-color: rgb(52, 141, 223);
+  color: white;
+}
+
+#info {
+  display: flex;
+  justify-content: center;
+}
+
+ul {
+  display: inline-block;
+  list-style-type: none;
+  margin: 20px 100px;
+}
+
+ul li:not(:first-child) {
+  margin-left: 30px;
+}
+
+
+#copy {
+  text-align: center;
+  background-color: #005a87;
+  color: white;
+}
+
+#copy span {
+  color: #ccc;
+}
+
